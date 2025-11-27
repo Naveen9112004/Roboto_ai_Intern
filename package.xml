@@ -1,36 +1,43 @@
 <?xml version="1.0"?>
-<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd"
+            schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
   <name>gazebo</name>
   <version>0.0.0</version>
-  <description>TODO: Package description</description>
+  <description>Gazebo world + robot + simple MoveToGoal action</description>
   <maintainer email="selvinaveen9112004@gmail.com">naveen</maintainer>
   <license>TODO: License declaration</license>
 
+  <!-- Build tools -->
   <buildtool_depend>ament_cmake</buildtool_depend>
-  
+  <buildtool_depend>rosidl_default_generators</buildtool_depend>
 
+  <!-- C++ (if you still use rclcpp elsewhere) -->
   <depend>rclcpp</depend>
-  <depend>geometry_msgs</depend>
+
+  <!-- Runtime / build dependencies -->
   <depend>sensor_msgs</depend>
-  <depend>nav_msgs</depend>
   <depend>tf2</depend>
   <depend>tf2_ros</depend>
-  <exec_depend>rviz2</exec_depend>
-
   <depend>xacro</depend>
   <depend>robot_state_publisher</depend>
   <depend>joint_state_publisher</depend>
-
   <depend>ros_gz_sim</depend>
   <depend>ros_gz_bridge</depend>
-  
   <depend>ros_gz_image</depend>
 
-  <test_depend>ament_lint_auto</test_depend>
-  <test_depend>ament_lint_common</test_depend>
+  <!-- Interface + actions -->
+  <depend>action_msgs</depend>
+  <member_of_group>rosidl_interface_packages</member_of_group>
 
+  <!-- Python + msgs for your action server/client -->
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>geometry_msgs</exec_depend>
+  <exec_depend>nav_msgs</exec_depend>
+  <exec_depend>tf_transformations</exec_depend>
+  <exec_depend>rviz2</exec_depend>
 
+  <!-- Tests -->
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
 

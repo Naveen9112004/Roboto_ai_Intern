@@ -14,7 +14,7 @@ find_package(nav_msgs REQUIRED)
 find_package(tf2 REQUIRED)
 find_package(tf2_ros REQUIRED)
 find_package(rviz2 REQUIRED)
-
+find_package(rosidl_default_generators REQUIRED)
 find_package(xacro REQUIRED)
 find_package(ros_gz_sim REQUIRED)
 find_package(ros_gz_bridge REQUIRED)
@@ -25,6 +25,16 @@ install(DIRECTORY
   worlds 
   meshes
   DESTINATION share/${PROJECT_NAME}
+)
+
+
+rosidl_generate_interfaces(${PROJECT_NAME}
+  "action/MoveToGoal.action"
+)
+install(PROGRAMS
+  scripts/move_to_goal_server.py
+  scripts/move_to_goal_client.py
+  DESTINATION lib/${PROJECT_NAME}
 )
 
 install(
