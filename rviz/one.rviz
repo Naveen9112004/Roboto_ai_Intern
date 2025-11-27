@@ -1,0 +1,79 @@
+Rviz:
+  Global:
+    Fixed Frame: odom # Start with odom, switch to map for SLAM later
+    Frame Rate: 30
+    Background Color: 48; 48; 48
+  Displays:
+    - Class: rviz_default_plugins/Grid
+      Name: Grid
+      Enabled: true
+      Color: 160; 160; 164
+      Cell Size: 1
+      Plane: XY
+      Plane Cell Count: 20
+    
+    - Class: rviz_default_plugins/RobotModel
+      Name: RobotModel
+      Enabled: true
+      Visual Enabled: true
+      Collision Enabled: false
+      Robot Description: robot_description
+      Update Interval: 0.1
+      TF Prefix: ""
+
+    - Class: rviz_default_plugins/TF
+      Name: TF
+      Enabled: true
+      Show Arrows: true
+      Show Names: true
+      Show Axes: true
+      Update Interval: 0.05
+    
+    # 1. Odometry from DiffDrive Plugin
+    - Class: rviz_default_plugins/Odometry
+      Name: Odometry
+      Enabled: true
+      Topic: /odom
+      Color: 0; 255; 0
+      Unreliable: false
+      Keep: 100
+      History Duration: 30
+
+    # 2. LaserScan from GPU Lidar
+    - Class: rviz_default_plugins/LaserScan
+      Name: Lidar Scan
+      Enabled: true
+      Topic: /scan
+      Color: 255; 0; 0
+      Style: Points
+      Size (m): 0.05
+
+    # 3. IMU Data
+    - Class: rviz_default_plugins/Imu
+      Name: IMU
+      Enabled: true
+      Topic: /imu
+      Color: 0; 255; 255
+      Keep: 10
+      Show Orientation: true
+      Show Acceleration: true
+
+    # 4. Camera Image (Opens a separate window)
+    - Class: rviz_default_plugins/Image
+      Name: Camera Image
+      Enabled: true
+      Topic: /camera/image_raw
+
+    # 5. Joint States (For debugging)
+    - Class: rviz_default_plugins/JointState
+      Name: Joint States
+      Enabled: true
+      Topic: /joint_states
+      
+  Tools:
+    - Class: rviz_default_plugins/SetGoal
+      Name: 2D Nav Goal
+      Topic: /move_base_simple/goal
+    - Class: rviz_default_plugins/SetInitialPose
+      Name: 2D Pose Estimate
+      Topic: /initialpose

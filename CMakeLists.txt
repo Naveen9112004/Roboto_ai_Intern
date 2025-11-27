@@ -13,6 +13,7 @@ find_package(sensor_msgs REQUIRED)
 find_package(nav_msgs REQUIRED)
 find_package(tf2 REQUIRED)
 find_package(tf2_ros REQUIRED)
+find_package(rviz2 REQUIRED)
 
 find_package(xacro REQUIRED)
 find_package(ros_gz_sim REQUIRED)
@@ -26,6 +27,12 @@ install(DIRECTORY
   DESTINATION share/${PROJECT_NAME}
 )
 
+install(
+  FILES
+    rviz/one.rviz # Path to your .rviz file relative to CMakeLists.txt
+  DESTINATION 
+    share/${PROJECT_NAME}/rviz # Destination subfolder in the install space
+)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
