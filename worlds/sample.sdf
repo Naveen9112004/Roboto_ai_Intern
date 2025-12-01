@@ -25,7 +25,6 @@
       <direction>-0.5 0.1 -0.9</direction>
     </light>
 
-    <!-- Ground Plane -->
     <model name="ground_plane">
       <static>true</static>
       <link name="link">
@@ -36,6 +35,22 @@
               <size>20 20</size>
             </plane>
           </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <!-- Ground friction coefficients (tune as needed) -->
+                <mu>1.0</mu>
+                <mu2>1.0</mu2>
+              </ode>
+            </friction>
+            <contact>
+              <ode>
+                <!-- Stiff, well-damped contact with wheels -->
+                <kp>100000.0</kp>
+                <kd>1.0</kd>
+              </ode>
+            </contact>
+          </surface>
         </collision>
         <visual name="visual">
           <geometry>
@@ -51,6 +66,7 @@
         </visual>
       </link>
     </model>
+
 
     <!-- Boundary Walls (Box) -->
     <model name="wall_north">

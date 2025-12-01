@@ -27,12 +27,6 @@ install(DIRECTORY
   DESTINATION share/${PROJECT_NAME}
 )
 install(
-  DIRECTORY
-    config # Installs the config directory
-    maps   # Installs the maps directory
-  DESTINATION share/${PROJECT_NAME}
-)
-install(
   FILES
     rviz/one.rviz
   DESTINATION 
