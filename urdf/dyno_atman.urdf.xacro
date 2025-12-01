@@ -1,21 +1,29 @@
 <?xml version="1.0"?>
 <robot name="my_mesh_robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
+  <!-- Base footprint -->
   <link name="base_footprint"/>
-   
+
   <joint name="base_joint" type="fixed">
     <parent link="base_footprint"/>
     <child link="base_link"/>
     <origin xyz="0 0 0.1075" rpy="0 0 0"/>
   </joint>
 
+  <!-- BASE LINK -->
   <link name="base_link">
     <visual>
-      <geometry><mesh filename="package://gazebo/meshes/base_link.STL"/></geometry>
-      <material name="grey"><color rgba="0.5 0.5 0.5 1"/></material>
+      <geometry>
+        <mesh filename="package://gazebo/meshes/base_link.STL"/>
+      </geometry>
+      <material name="grey">
+        <color rgba="0.5 0.5 0.5 1"/>
+      </material>
     </visual>
     <collision>
-      <geometry><mesh filename="package://gazebo/meshes/base_link.STL"/></geometry>
+      <geometry>
+        <mesh filename="package://gazebo/meshes/base_link.STL"/>
+      </geometry>
     </collision>
     <inertial>
       <mass value="40.0"/>
@@ -23,14 +31,21 @@
     </inertial>
   </link>
 
+  <!-- LEFT WHEEL -->
   <link name="left_wheel">
     <visual>
-      <origin xyz="0 0 0" rpy="1.5708 0 0"/> 
-      <geometry><mesh filename="package://gazebo/meshes/l_wheel.STL"/></geometry>
-      <material name="black"><color rgba="0 0 0 1"/></material>
+      <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+      <geometry>
+        <mesh filename="package://gazebo/meshes/l_wheel.STL"/>
+      </geometry>
+      <material name="black">
+        <color rgba="0 0 0 1"/>
+      </material>
     </visual>
     <collision>
-      <geometry><cylinder radius="0.1075" length="0.05"/></geometry>
+      <geometry>
+        <cylinder radius="0.1075" length="0.05"/>
+      </geometry>
     </collision>
     <inertial>
       <mass value="2.4"/>
@@ -46,14 +61,21 @@
     <dynamics damping="1.0" friction="0.2"/>
   </joint>
 
+  <!-- RIGHT WHEEL -->
   <link name="right_wheel">
     <visual>
       <origin xyz="0 0 0" rpy="1.5708 0 0"/>
-      <geometry><mesh filename="package://gazebo/meshes/r_wheel.STL"/></geometry>
-      <material name="black"/>
+      <geometry>
+        <mesh filename="package://gazebo/meshes/r_wheel.STL"/>
+      </geometry>
+      <material name="black">
+        <color rgba="0 0 0 1"/>
+      </material>
     </visual>
     <collision>
-      <geometry><cylinder radius="0.1075" length="0.05"/></geometry>
+      <geometry>
+        <cylinder radius="0.1075" length="0.05"/>
+      </geometry>
     </collision>
     <inertial>
       <mass value="2.4"/>
@@ -69,20 +91,18 @@
     <dynamics damping="1.0" friction="0.2"/>
   </joint>
 
-  <!-- Friction / contact for wheels (important: on the link collision, not the joint) -->
+  <!-- WHEEL FRICTION -->
   <gazebo reference="left_wheel">
     <collision>
       <surface>
         <friction>
           <ode>
-          <!-- increase friction to reduce slip -->
             <mu>1.2</mu>
             <mu2>1.2</mu2>
           </ode>
         </friction>
         <contact>
           <ode>
-          <!-- stiffer contact to avoid interpenetration + reduce jitter/slip -->
             <kp>50000</kp>
             <kd>1.0</kd>
           </ode>
@@ -110,13 +130,20 @@
     </collision>
   </gazebo>
 
+  <!-- FRONT CASTER -->
   <link name="front_caster">
     <visual>
-      <geometry><mesh filename="package://gazebo/meshes/f_castor.STL"/></geometry>
-      <material name="silver"><color rgba="0.8 0.8 0.8 1"/></material>
+      <geometry>
+        <mesh filename="package://gazebo/meshes/f_castor.STL"/>
+      </geometry>
+      <material name="silver">
+        <color rgba="0.8 0.8 0.8 1"/>
+      </material>
     </visual>
     <collision>
-      <geometry><sphere radius="0.05"/></geometry>
+      <geometry>
+        <sphere radius="0.05"/>
+      </geometry>
     </collision>
     <inertial>
       <mass value="0.2"/>
@@ -129,14 +156,21 @@
     <child link="front_caster"/>
     <origin xyz="0.3075 0.045 -0.0575" rpy="0 0 0"/>
   </joint>
-   
+
+  <!-- BACK CASTER -->
   <link name="back_caster">
     <visual>
-      <geometry><mesh filename="package://gazebo/meshes/r_castor.STL"/></geometry>
-      <material name="silver"/>
+      <geometry>
+        <mesh filename="package://gazebo/meshes/r_castor.STL"/>
+      </geometry>
+      <material name="silver">
+        <color rgba="0.8 0.8 0.8 1"/>
+      </material>
     </visual>
     <collision>
-      <geometry><sphere radius="0.05"/></geometry>
+      <geometry>
+        <sphere radius="0.05"/>
+      </geometry>
     </collision>
     <inertial>
       <mass value="0.2"/>
@@ -150,7 +184,7 @@
     <origin xyz="-0.3075 -0.045 -0.0575" rpy="0 0 0"/>
   </joint>
 
-  <!-- Friction for caster links (caster should have contact friction, joints are fixed) -->
+  <!-- CASTER FRICTION -->
   <gazebo reference="front_caster">
     <collision>
       <surface>
@@ -189,6 +223,7 @@
     </collision>
   </gazebo>
 
+  <!-- IMU -->
   <link name="imu_link"/>
   <joint name="imu_joint" type="fixed">
     <parent link="base_link"/>
@@ -205,15 +240,22 @@
     </sensor>
   </gazebo>
 
+  <!-- LIDAR -->
   <link name="lidar_link">
     <visual>
       <origin xyz="0 0 -0.03" rpy="0 0 0"/>
-      <geometry><mesh filename="package://gazebo/meshes/lidar.STL"/></geometry>
-      <material name="blue"><color rgba="0 0 1 1"/></material>
+      <geometry>
+        <mesh filename="package://gazebo/meshes/lidar.STL"/>
+      </geometry>
+      <material name="blue">
+        <color rgba="0 0 1 1"/>
+      </material>
     </visual>
     <collision>
-       <origin xyz="0 0 -0.03" rpy="0 0 0"/>
-      <geometry><cylinder radius="0.055" length="0.0315"/></geometry>
+      <origin xyz="0 0 -0.03" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.055" length="0.0315"/>
+      </geometry>
     </collision>
     <inertial>
       <mass value="0.1"/>
@@ -250,10 +292,15 @@
     </sensor>
   </gazebo>
 
+  <!-- CAMERA BODY -->
   <link name="camera_link">
     <visual>
-      <geometry><box size="0.05 0.05 0.05"/></geometry>
-      <material name="red"><color rgba="1 0 0 1"/></material>
+      <geometry>
+        <mesh filename="package://gazebo/meshes/camera.STL"/>
+      </geometry>
+      <material name="red">
+        <color rgba="1 0 0 1"/>
+      </material>
     </visual>
   </link>
 
@@ -263,7 +310,8 @@
     <origin xyz="0.25 0 0.1" rpy="0 0 0"/>
   </joint>
 
-  <link name="camera_link_optical"></link>
+  <!-- CAMERA OPTICAL FRAME -->
+  <link name="camera_link_optical"/>
   <joint name="camera_optical_joint" type="fixed">
     <parent link="camera_link"/>
     <child link="camera_link_optical"/>
@@ -291,6 +339,7 @@
     </sensor>
   </gazebo>
 
+  <!-- GAZEBO PLUGINS: DIFF DRIVE, JOINT STATES, IMU -->
   <gazebo>
     <plugin filename="gz-sim-diff-drive-system" name="gz::sim::systems::DiffDrive">
       <left_joint>left_wheel_joint</left_joint>
@@ -302,21 +351,21 @@
       <odom_topic>odom</odom_topic>
       <tf_topic>tf</tf_topic>
       <frame_id>odom</frame_id>
-      <child_frame_id>base_footprint</child_frame_id>
+      <!-- UPDATED: use base_link as child frame -->
+      <child_frame_id>base_link</child_frame_id>
     </plugin>
 
     <plugin filename="gz-sim-joint-state-publisher-system" name="gz::sim::systems::JointStatePublisher">
       <topic>joint_states</topic>
     </plugin>
 
-    <!-- <plugin
-      filename="gz-sim-sensors-system"
-      name="gz::sim::systems::Sensors">
+    <!-- Optional Sensors system plugin
+    <plugin filename="gz-sim-sensors-system" name="gz::sim::systems::Sensors">
       <render_engine>ogre2</render_engine>
-    </plugin> -->
-
-    <plugin filename="gz-sim-imu-system" name="gz::sim::systems::Imu">
     </plugin>
+    -->
+
+    <plugin filename="gz-sim-imu-system" name="gz::sim::systems::Imu"/>
   </gazebo>
 
 </robot>

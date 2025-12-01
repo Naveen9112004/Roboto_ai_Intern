@@ -1,11 +1,13 @@
 # Goal
-float64 dummy
+float64 target_x
+float64 target_y
+float64 target_yaw
 ---
 # Result
 bool success
 string message
 ---
 # Feedback
-float64 distance_ahead
 float64 current_x
 float64 current_y
+float64 distance_to_goal

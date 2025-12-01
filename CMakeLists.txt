@@ -26,8 +26,19 @@ install(DIRECTORY
   meshes
   DESTINATION share/${PROJECT_NAME}
 )
-
-
+install(
+  DIRECTORY
+    config # Installs the config directory
+    maps   # Installs the maps directory
+  DESTINATION share/${PROJECT_NAME}
+)
+install(
+  FILES
+    rviz/one.rviz
+  DESTINATION 
+    share/${PROJECT_NAME}/rviz
+)
+ 
 rosidl_generate_interfaces(${PROJECT_NAME}
   "action/MoveToGoal.action"
 )
@@ -35,13 +46,6 @@ install(PROGRAMS
   scripts/move_to_goal_server.py
   scripts/move_to_goal_client.py
   DESTINATION lib/${PROJECT_NAME}
-)
-
-install(
-  FILES
-    rviz/one.rviz # Path to your .rviz file relative to CMakeLists.txt
-  DESTINATION 
-    share/${PROJECT_NAME}/rviz # Destination subfolder in the install space
 )
 
 if(BUILD_TESTING)
