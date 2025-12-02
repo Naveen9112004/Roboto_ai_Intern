@@ -30,18 +30,25 @@ def generate_launch_description():
         launch_arguments={'gz_args': f'-r {world_file}'}.items()
     )
 
+# In: <your_pkg>/launch/world_launch.py - MODIFIED SECTION
+
     # 3. Bridge (Connecting Gazebo Topics to ROS)
     bridge = Node(
         package='ros_gz_bridge',
         executable='parameter_bridge',
         arguments=[
+            # CRITICAL: CLOCK BRIDGE ADDED HERE
+            '/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock',
+            
+            # Teleop/Movement
             '/cmd_vel@geometry_msgs/msg/Twist@gz.msgs.Twist',
+            # Odometry / State
             '/odom@nav_msgs/msg/Odometry@gz.msgs.Odometry',
             '/tf@tf2_msgs/msg/TFMessage@gz.msgs.Pose_V',
+            # Sensors
             '/scan@sensor_msgs/msg/LaserScan@gz.msgs.LaserScan',
             '/imu@sensor_msgs/msg/Imu@gz.msgs.IMU',
-            '/joint_states@sensor_msgs/msg/JointState@gz.msgs.Model',
-            # Camera Bridge
+            # Camera
             '/camera/image_raw@sensor_msgs/msg/Image@gz.msgs.Image',
         ],
         output='screen'

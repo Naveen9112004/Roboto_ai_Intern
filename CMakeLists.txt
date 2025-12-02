@@ -18,14 +18,18 @@ find_package(rosidl_default_generators REQUIRED)
 find_package(xacro REQUIRED)
 find_package(ros_gz_sim REQUIRED)
 find_package(ros_gz_bridge REQUIRED)
+find_package(slam_toolbox REQUIRED)
+find_package(nav2_common REQUIRED)
 
 install(DIRECTORY 
   launch 
   urdf 
   worlds 
   meshes
+  config
   DESTINATION share/${PROJECT_NAME}
 )
+
 install(
   FILES
     rviz/one.rviz

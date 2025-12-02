@@ -1,11 +1,9 @@
 import os
-import random
-
+# Remove 'random' import if you don't need it for other purposes
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch_ros.actions import Node
 import xacro
-
 
 def generate_launch_description():
     pkg_name = 'gazebo'
@@ -16,7 +14,8 @@ def generate_launch_description():
     doc = xacro.process_file(xacro_file)
     robot_desc = doc.toxml()
 
-    # 2. Robot State Publisher
+    # 2. Robot State Publisher (RSP)
+    # Publishes TFs like base_link -> lidar_link
     node_robot_state_publisher = Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',
@@ -24,17 +23,13 @@ def generate_launch_description():
         parameters=[{'robot_description': robot_desc, 'use_sim_time': True}]
     )
 
-    # 3. Choose random corner
-    corners = [
-        (7.0, 7.0),
-        (-7.0, 7.0),
-        (7.0, -7.0),
-        (-7.0, -7.0),
-    ]
-    spawn_x, spawn_y = random.choice(corners)
+    # 3. FIXED SPAWN LOCATION 
+    # The robot will now always spawn at the Top-Right corner (7.0, 7.0)
+    spawn_x = 7.0
+    spawn_y = 7.0
     spawn_z = 0.2
 
-    # 4. Spawn Entity
+    # 4. Spawn Entity in Gazebo Sim
     spawn_entity = Node(
         package='ros_gz_sim',
         executable='create',
@@ -58,36 +53,11 @@ def generate_launch_description():
         arguments=['-d', os.path.join(pkg_share, 'rviz', 'one.rviz')]
     )
 
-    # 6. Static transforms (only if you want explicit frames)
-
-    # odom -> base_footprint (helps some Nav2 setups)
-    static_odom_base = Node(
-        package='tf2_ros',
-        executable='static_transform_publisher',
-        name='static_odom_base',
-        arguments=[
-            '0', '0', '0',      # x y z
-            '0', '0', '0',      # roll pitch yaw
-            'odom', 'base_footprint'
-        ]
-    )
-
-    # base_link -> camera_link_optical (matches URDF but explicit)
-    static_camera_optical = Node(
-        package='tf2_ros',
-        executable='static_transform_publisher',
-        name='static_camera_optical',
-        arguments=[
-            '0', '0', '0',
-            '0', '-1.5708', '0',
-            'base_link', 'camera_link_optical'
-        ]
-    )
+    # 6. CRITICAL CORRECTION: REMOVE REDUNDANT TF NODE (Kept for correctness)
+    # The required TF chain is: map -> odom -> base_link -> base_footprint
 
     return LaunchDescription([
         node_robot_state_publisher,
         spawn_entity,
         rviz_node,
-        static_odom_base,
-        static_camera_optical,
     ])
