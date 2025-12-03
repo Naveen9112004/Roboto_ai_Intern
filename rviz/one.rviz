@@ -57,7 +57,7 @@ Visualization Manager:
     # 2. MAP DISPLAY (CRITICAL for SLAM output)
     - Alpha: 1
       Class: rviz_default_plugins/Map
-      Color Scheme: costmap
+      Color Scheme: map
       Draw Behind: true
       Enabled: true
       Name: Map

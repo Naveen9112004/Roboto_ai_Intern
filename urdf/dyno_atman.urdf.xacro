@@ -1,7 +1,16 @@
 <?xml version="1.0"?>
 <robot name="my_mesh_robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <!-- base_link IS THE ROOT LINK -->
+
+  <link name="base_footprint"/>
+
+  <joint name="base_joint" type="fixed">
+    <parent link="base_footprint"/>
+    <child link="base_link"/>
+    <origin xyz="0 0 0.1075" rpy="0 0 0"/>
+  </joint>
+
+
   <link name="base_link">
     <visual>
       <geometry>
@@ -12,11 +21,13 @@
       </material>
     </visual>
 
+
     <collision>
       <geometry>
         <mesh filename="package://gazebo/meshes/base_link.STL"/>
       </geometry>
     </collision>
+
 
     <inertial>
       <mass value="40.0"/>
@@ -24,7 +35,7 @@
     </inertial>
   </link>
 
-  <!-- Left wheel -->
+
   <link name="left_wheel">
     <visual>
       <origin xyz="0 0 0" rpy="1.5708 0 0"/>
@@ -46,6 +57,7 @@
     </inertial>
   </link>
 
+
   <joint name="left_wheel_joint" type="continuous">
     <parent link="base_link"/>
     <child link="left_wheel"/>
@@ -54,7 +66,7 @@
     <dynamics damping="1.0" friction="0.2"/>
   </joint>
 
-  <!-- Right wheel -->
+
   <link name="right_wheel">
     <visual>
       <origin xyz="0 0 0" rpy="1.5708 0 0"/>
@@ -76,6 +88,7 @@
     </inertial>
   </link>
 
+
   <joint name="right_wheel_joint" type="continuous">
     <parent link="base_link"/>
     <child link="right_wheel"/>
@@ -83,6 +96,7 @@
     <axis xyz="0 0 1"/>
     <dynamics damping="1.0" friction="0.2"/>
   </joint>
+
 
   <gazebo reference="left_wheel">
     <collision>
@@ -103,6 +117,7 @@
     </collision>
   </gazebo>
 
+
   <gazebo reference="right_wheel">
     <collision>
       <surface>
@@ -122,7 +137,7 @@
     </collision>
   </gazebo>
 
-  <!-- Front caster -->
+
   <link name="front_caster">
     <visual>
       <geometry>
@@ -143,13 +158,14 @@
     </inertial>
   </link>
 
+
   <joint name="front_caster_joint" type="fixed">
     <parent link="base_link"/>
     <child link="front_caster"/>
     <origin xyz="0.3075 0.045 -0.0575" rpy="0 0 0"/>
   </joint>
 
-  <!-- Back caster -->
+
   <link name="back_caster">
     <visual>
       <geometry>
@@ -170,11 +186,13 @@
     </inertial>
   </link>
 
+
   <joint name="back_caster_joint" type="fixed">
     <parent link="base_link"/>
     <child link="back_caster"/>
     <origin xyz="-0.3075 -0.045 -0.0575" rpy="0 0 0"/>
   </joint>
+
 
   <gazebo reference="front_caster">
     <collision>
@@ -195,6 +213,7 @@
     </collision>
   </gazebo>
 
+
   <gazebo reference="back_caster">
     <collision>
       <surface>
@@ -214,13 +233,14 @@
     </collision>
   </gazebo>
 
-  <!-- IMU -->
+
   <link name="imu_link"/>
   <joint name="imu_joint" type="fixed">
     <parent link="base_link"/>
     <child link="imu_link"/>
     <origin xyz="0.0 0 0.068" rpy="0 0 0"/>
   </joint>
+
 
   <gazebo reference="imu_link">
     <sensor name="imu_sensor" type="imu">
@@ -245,7 +265,7 @@
     </sensor>
   </gazebo>
 
-  <!-- LIDAR -->
+
   <link name="lidar_link">
     <visual>
       <origin xyz="0 0 -0.03" rpy="0 0 0"/>
@@ -268,11 +288,13 @@
     </inertial>
   </link>
 
+
   <joint name="lidar_joint" type="fixed">
     <parent link="base_link"/>
     <child link="lidar_link"/>
     <origin xyz="0 0 0.250" rpy="0 0 0"/>
   </joint>
+
 
   <gazebo reference="lidar_link">
     <sensor name="lidar" type="gpu_lidar">
@@ -298,7 +320,7 @@
     </sensor>
   </gazebo>
 
-  <!-- Camera -->
+
   <link name="camera_link">
     <visual>
       <geometry>
@@ -310,11 +332,13 @@
     </visual>
   </link>
 
+
   <joint name="camera_joint" type="fixed">
     <parent link="base_link"/>
     <child link="camera_link"/>
     <origin xyz="0.25 0 0.1" rpy="0 0 0"/>
   </joint>
+
 
   <link name="camera_link_optical"/>
   <joint name="camera_optical_joint" type="fixed">
@@ -322,6 +346,7 @@
     <child link="camera_link_optical"/>
     <origin xyz="0 0 0" rpy="0 -1.5708 0"/>
   </joint>
+
 
   <gazebo reference="camera_link_optical">
     <sensor name="camera" type="camera">
@@ -344,7 +369,7 @@
     </sensor>
   </gazebo>
 
-  <!-- Gazebo plugins -->
+
   <gazebo>
     <plugin filename="gz-sim-diff-drive-system" name="gz::sim::systems::DiffDrive">
       <left_joint>left_wheel_joint</left_joint>
@@ -356,14 +381,16 @@
       <odom_topic>odom</odom_topic>
       <tf_topic>tf</tf_topic>
       <frame_id>odom</frame_id>
-      <child_frame_id>base_link</child_frame_id>
-    </plugin>
+      <child_frame_id>base_footprint</child_frame_id> </plugin>
+
 
     <plugin filename="gz-sim-joint-state-publisher-system" name="gz::sim::systems::JointStatePublisher">
       <topic>joint_states</topic>
     </plugin>
 
+
     <plugin filename="gz-sim-imu-system" name="gz::sim::systems::Imu"/>
   </gazebo>
+
 
 </robot>

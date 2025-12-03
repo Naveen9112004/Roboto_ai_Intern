@@ -1,0 +1,45 @@
+# In: <your_pkg>/config/mapper_params_online_multi_async.yaml
+
+slam_toolbox:
+  ros__parameters:
+    # --- Frame and Topic Configuration ---
+    odom_frame: odom                    
+    map_frame: map                      
+    base_frame: base_footprint          # Using base_footprint as per your requested TF chain
+    
+    use_sim_time: true                  # CRITICAL: Ensures synchronization with Gazebo's clock
+    
+    scan_topic: /scan                   
+    scan_queue_size: 10
+    
+    # --- Algorithm Mode (Multi-Asynchronous) ---
+    mode: 'mapping'                     
+    method: 'online_multi_async'        # CRITICAL CHANGE: Use multi-asynchronous mode 
+    
+    # --- Timing and Performance ---
+    transform_publish_period: 0.02      # Publish map->odom at 50 Hz (Standard async rate)
+    map_update_interval: 5.0            # Frequency of map topic publication (seconds)
+    
+    transform_timeout: 0.3              # Standard timeout
+    tf_buffer_duration: 30.0
+    
+    # Increase stack size for large pose graphs in multi-threaded environment
+    stack_size_to_use: 40000000        
+
+    # --- Movement Thresholds ---
+    minimum_travel_distance: 0.2        
+    minimum_travel_heading: 0.2         
+
+    # --- Laser range limits ---
+    min_laser_range: 0.12
+    max_laser_range: 4.0
+
+    # --- Loop Closure and Optimization ---
+    do_loop_closing: true               
+    loop_search_maximum_distance: 3.0
+    # [Other optimization parameters should match your previous file for consistency]
+    
+    # --- Map storage & interactive tools ---
+    use_map_saver: true
+    enable_interactive_mode: true
+    occupancy_threshold: 0.1
